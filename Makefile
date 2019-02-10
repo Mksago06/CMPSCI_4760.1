@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -g
-TARGET = fork
+TARGET = main
 OBJS = main.o stack.o
 
 $(TARGET): $(OBJS)
@@ -9,7 +9,7 @@ $(TARGET): $(OBJS)
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c
 
-stack.o: stack.c
+stack.o: stack.c stack.h
 	$(CC) $(CFLAGS) -c stack.c
 	
 clean:

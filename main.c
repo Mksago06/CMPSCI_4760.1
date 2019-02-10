@@ -2,6 +2,15 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include <unistd.h>
+#include <string.h>
+#include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include "stack.h"
+
+#define SHMKEY 987654
+#define BUFF_SZ sizeof(int)
 
 int main(int argc, char **argv){
 	int option;
@@ -29,7 +38,7 @@ int main(int argc, char **argv){
 	FILE * fPointer = fopen("input.txt", "r");
 
 	int numOfForks;
-	int i;
+	int i, j;
 
 	fscanf(fPointer, "%i", &numOfForks);
 
@@ -39,6 +48,37 @@ int main(int argc, char **argv){
 
 		if((pidHolder[i] = fork()) == 0){	  
 			//open file addto it and close file
+			//sleep(2);
+			//int shmid = shmget(SHMKEY, BUFF_SZ, 0777);
+
+			//if(shmid == -1){
+				//perror();
+			//}
+
+			char readLine[100];
+			int stackNums;
+			fscanf(fPointer, "%i", &stackNums);
+			
+			struct Stack* stack = createStack(stackNums);
+			
+			fgetc(fPointer);	
+			fgets(readLine, 100, fPointer);
+
+			char s[2] = " ";
+			char* token;
+			
+			token = strtok(readLine, s);
+
+			while(token != NULL){
+				
+				if(!isFull(stack)){
+					
+					push(stack, atoi(token));
+				}
+
+				token = strtok(NULL, s);
+			}//end while
+	
 			printf("child-pid %d from parent-pid %d\n", getpid(), getppid());
 			exit(0);
 		}
