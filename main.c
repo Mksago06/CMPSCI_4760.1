@@ -1,18 +1,24 @@
+/*
+ *Program By : Michael Sago
+ *Date : Feb 11 2019
+ *CMPSCI_4760
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
-#include <sys/types.h>
+
 #include "stack.h"
 
 int main(int argc, char **argv){
 
 	int option;
 
-	char * input = malloc(50 * sizeof(char) + 1);
-	char * output = malloc(50 * sizeof(char) + 1);
+	char * input = malloc(32 * sizeof(char) + 1);
+	char * output = malloc(32 * sizeof(char) + 1);
 
 	strcpy(input, "input.dat");
 	strcpy(output, "output.dat");

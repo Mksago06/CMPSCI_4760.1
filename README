@@ -1,1 +1,12 @@
 # CMPSCI_4760.1
+
+Programed by MICHAEL SAGO
+
+This program takes in either a user defined input/output file or has a default input/output file names. This program will then read the first line which should be the number of forks to be created. It then read the next line determining how many numbers are to be read in on the next line. It uses a stack to read those numbers in and then prints them in to an output file in reverse order.
+
+Default files:
+input.dat
+output.dat
+
+**HOW TO RUN THE PROGRAM**
+To run this program type make(PRESS Enter) in the root directy then type ./main to run the default files or ./main -i yourInputFileName or ./main -o yourOutputFileName 
