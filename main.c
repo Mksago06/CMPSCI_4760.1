@@ -135,7 +135,7 @@ int main(int argc, char **argv){
 			fgetc(fPointer);
 			fgets(read, 100, fPointer);
 			waitpid(pidHolder[i], &exitStatus, 0);
-		}
+		}//end else
 	}//end for
 
 	fp = fopen(output, "a+");
