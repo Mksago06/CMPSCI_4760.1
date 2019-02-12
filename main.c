@@ -31,9 +31,10 @@ int main(int argc, char **argv){
 	}//end while
 	
 	FILE * fPointer = fopen("input.txt", "r");
-
+	FILE * fp;			
+	
 	int numOfForks;
-	int i, j;
+	int i, j, k;
 
 	fscanf(fPointer, "%i", &numOfForks);
 
@@ -42,13 +43,15 @@ int main(int argc, char **argv){
 	for(i = 0; i < numOfForks; i++){
 	
 	
-		if((pidHolder[i] = fork()) == 0){	  
-			//open file addto it and close file
+		if((pidHolder[i] = fork()) == 0){
+			//child process	  	  
+			//open file amend to it and close file
 
 			char readLine[100];
 			int stackNums;
 			fscanf(fPointer, "%i", &stackNums);
-						
+			fp = fopen("output.txt", "a+");
+			//FILE * fp = fopen("output.txt", "a+");			
 			struct Stack* stack = createStack(stackNums);
 			
 			fgetc(fPointer);	
@@ -68,30 +71,44 @@ int main(int argc, char **argv){
 
 				token = strtok(NULL, s);
 			}//end while
-//Pop numbers back off and write to file	
-			printf("child-pid %d from parent-pid %d\n", getpid(), getppid());
+			
+			//POP numbers and write to file in reverse order	
+			fprintf(fp, "%d: ", getpid());
+
+			for (j = 1; j <= stackNums; j++){
+				
+				fprintf(fp, "%i ", pop(stack));
+			}
+
+			fprintf(fp, "\n");
+			fclose(fp);
 			exit(0);
 		}else{
-			//fgets(readLine, 100, fPointer);
-			//fgets(readLine, 100, fPointer);
+			
 			char read[100];
 			int exitStatus;
+
+			fgetc(fPointer);
+			fgets(read, 100, fPointer);
+			fgetc(fPointer);
+			fgets(read, 100, fPointer);
 			waitpid(pidHolder[i], &exitStatus, 0);
-			fgetc(fPointer);
-			fgets(read, 100, fPointer);
-			fgetc(fPointer);
-			fgets(read, 100, fPointer);
 		}
 	}//end for
 
-	for(i = 0; i < numOfForks; i++)
-		wait(NULL);
+	fp = fopen("output.txt", "a+");
+
+	fprintf(fp, "All children were: ");
+
+	for(k = 0; k < numOfForks; k++){
+
+		fprintf(fp, "%d ", pidHolder[k]);
+	}
+
+	fprintf(fp, "\n");
 
 	fclose(fPointer);
-
-	printf("%d\n", pidHolder[0]);
-	printf("%d\n", pidHolder[2]);
-
+	fclose(fp);
 	return 0;
 }//end main
 
